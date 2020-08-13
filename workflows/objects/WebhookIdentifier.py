@@ -245,6 +245,7 @@ class Webhook:
         else:
             return False
     def fromOrganization(self):
+        self.logger.info('%s', "TEST123")
         return "TEST123"
         """
             Check organization from webhook

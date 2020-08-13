@@ -11,7 +11,6 @@ from common.common import getConf
 from objects.WebhookIdentifier import Webhook
 from objects.WebhookActuator import Actuator
 
-#test
 def manageWebhook(webhookData):
     """
         Filter webhooks received from TheHive and initiate actions like:
@@ -26,6 +25,7 @@ def manageWebhook(webhookData):
     webhook = Webhook(webhookData, cfg)
     actuator = Actuator(cfg)
     #we are only interrested in update webhook at the moment
+    print(webhook.fromOrganization)
     if webhook.isUpdate():
         if webhook.isQRadarAlertMarkedAsRead():
             actuator.closeOffense(webhook.offenseId)

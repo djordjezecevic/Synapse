@@ -146,19 +146,19 @@ class Webhook:
             return True
         else:
             return False
-    
-        
+
+
     def isQRadarAlertMarkedAsRead(self):
         """
             Check if the webhook describes a QRadar alert marked as read
             "store" the offenseId in the webhook attribute "offenseId"
-    
+
             :return: True if it is a QRadar alert marked as read, False if not
             :rtype: boolean
         """
-    
+
         self.logger.info('%s.isQRadarAlertMarkedAsRead starts', __name__)
-    
+
         if (self.isAlert() and self.isMarkedAsRead()):
             #the value 'QRadar_Offenses' is hardcoded at creation by
             #workflow QRadar2alert
@@ -166,7 +166,7 @@ class Webhook:
                 self.offenseId = self.data['object']['sourceRef']
                 return True
         return False
-    
+
     def isClosedQRadarCase(self):
         """
             Check if the webhook describes a closing QRadar case,
@@ -178,13 +178,13 @@ class Webhook:
             an offense.
             However a case created from merged case, where one of the merged case is
             related to QRadar, will close the linked QRadar offense.
-    
+
             :return: True if it is a QRadar alert marked as read, False if not
             :rtype: boolean
         """
-    
+
         self.logger.info('%s.isClosedQRadarCase starts', __name__)
-    
+
         try:
             if self.isCase() and self.isClosed() and not self.isMergedInto():
                 #searching in alerts if the case comes from a QRadar alert
@@ -210,7 +210,7 @@ class Webhook:
                 #when the webhook has been issued
                 #(might be open or already closed)
                 return False
-    
+
         except Exception as e:
             self.logger.error('%s.isClosedQRadarCase failed', __name__, exc_info=True)
             raise
@@ -220,7 +220,7 @@ class Webhook:
             For a given esCaseId, search if the case has been opened from
             a QRadar offense, if so adds the offenseId attribute to this object
 
-            :param esCaseId: elasticsearch case id 
+            :param esCaseId: elasticsearch case id
             :type esCaseId: str
 
             :return: True if it is a QRadar case, false if not
@@ -230,7 +230,7 @@ class Webhook:
         query = dict()
         query['case'] = esCaseId
         results = self.theHiveConnector.findAlert(query)
-    
+
         if len(results) == 1:
         #should only have one hit
             if results[0]['source'] == 'QRadar_Offenses':
@@ -243,4 +243,26 @@ class Webhook:
                 #not from QRadar
                 return False
         else:
+            return False
+    def fromOrganization(self):
+        return "TEST123"
+        """
+            Check organization from webhook
+            :return: Name of organization
+            :rtype: string
+        """
+
+        self.logger.info('%s.fromOrganization starts', __name__)
+        TAGS = self.data['object']['tags']
+        print(str(TAGS))
+
+        try:
+            if self.data['object']['tags'] == 'Ignored':
+                self.logger.info('%s.fromOrganization starts', __name__)
+                return True
+            else:
+                return False
+        except KeyError:
+            #when the alert is ignored (ignore new updates), the webhook does
+            #not have the status key, this exception handles that
             return False

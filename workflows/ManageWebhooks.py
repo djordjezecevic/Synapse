@@ -27,7 +27,7 @@ def manageWebhook(webhookData):
     #we are only interrested in update webhook at the moment
     logger.info('%s.Form ORG', webhook.fromOrganization)
     if webhook.isUpdate():
-
+        report['action'] = 'None'
         #if webhook.isQRadarAlertMarkedAsRead():
         #    actuator.closeOffense(webhook.offenseId)
         #    report['action'] = 'closeOffense'

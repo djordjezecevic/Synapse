@@ -23,7 +23,7 @@ def manageWebhook(webhookData):
 
     cfg = getConf()
     webhook = Webhook(webhookData, cfg)
-    actuator = Actuator(cfg)
+    #actuator = Actuator(cfg)
     #we are only interrested in update webhook at the moment
     logger.info('%s.Form ORG', webhook.fromOrganization)
     if webhook.isUpdate():

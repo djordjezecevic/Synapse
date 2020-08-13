@@ -11,6 +11,7 @@ from common.common import getConf
 from objects.WebhookIdentifier import Webhook
 from objects.WebhookActuator import Actuator
 
+#test
 def manageWebhook(webhookData):
     """
         Filter webhooks received from TheHive and initiate actions like:
@@ -20,7 +21,7 @@ def manageWebhook(webhookData):
     logger.info('%s.ManageWebhook starts', __name__)
 
     report = dict()
-    
+
     cfg = getConf()
     webhook = Webhook(webhookData, cfg)
     actuator = Actuator(cfg)
@@ -28,10 +29,10 @@ def manageWebhook(webhookData):
     if webhook.isUpdate():
         if webhook.isQRadarAlertMarkedAsRead():
             actuator.closeOffense(webhook.offenseId)
-            report['action'] = 'closeOffense' 
+            report['action'] = 'closeOffense'
         elif webhook.isClosedQRadarCase():
-            actuator.closeOffense(webhook.offenseId) 
-            report['action'] = 'closeOffense' 
+            actuator.closeOffense(webhook.offenseId)
+            report['action'] = 'closeOffense'
     else:
         #is not update or not a QRadar alert marked as read or not a closed QRadar case
         report['action'] = 'None'

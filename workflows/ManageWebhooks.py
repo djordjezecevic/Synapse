@@ -25,14 +25,15 @@ def manageWebhook(webhookData):
     webhook = Webhook(webhookData, cfg)
     actuator = Actuator(cfg)
     #we are only interrested in update webhook at the moment
-    print(webhook.fromOrganization)
+    logger.info('%s.Form ORG', webhook.fromOrganization)
     if webhook.isUpdate():
-        if webhook.isQRadarAlertMarkedAsRead():
-            actuator.closeOffense(webhook.offenseId)
-            report['action'] = 'closeOffense'
-        elif webhook.isClosedQRadarCase():
-            actuator.closeOffense(webhook.offenseId)
-            report['action'] = 'closeOffense'
+
+        #if webhook.isQRadarAlertMarkedAsRead():
+        #    actuator.closeOffense(webhook.offenseId)
+        #    report['action'] = 'closeOffense'
+        #elif webhook.isClosedQRadarCase():
+        #    actuator.closeOffense(webhook.offenseId)
+        #    report['action'] = 'closeOffense'
     else:
         #is not update or not a QRadar alert marked as read or not a closed QRadar case
         report['action'] = 'None'

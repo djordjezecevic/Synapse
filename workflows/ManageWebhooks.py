@@ -32,11 +32,11 @@ def manageWebhook(webhookData):
     hookType = webhook.webhookType()
     # pa poslati mail
     if hookType=="alert":
-#       print("It is alert !")
-        mailSender.send("djordje.zecevic@saga.rs", "It is alert !")
+        print("It is alert !")
+        mailSender.send("SOC_manager", "It is alert !")
     if hookType=="case":
-#        print("It is case !")
-        mailSender.send("djordje.zecevic@saga.rs", "It is case !")
+        print("It is case !")
+        mailSender.send("SOC_manager", "It is case !")
 
     if webhook.isUpdate():
         report['action'] = 'Update'

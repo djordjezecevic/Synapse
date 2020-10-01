@@ -43,9 +43,9 @@ class RestApiClient:
             print("WARNING: Unable to disable SSLv2 and SSLv3. Caused by exception " + str(e) + '"')
             sys.exit(1)
 
-        context.verify_mode = ssl.CERT_REQUIRED
+        context.verify_mode = False
         if sys.version_info >= (3, 4):
-            context.check_hostname = True
+            context.check_hostname = False
 
         check_hostname = True
         certificate_file = certificate_file

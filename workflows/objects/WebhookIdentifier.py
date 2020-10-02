@@ -68,7 +68,7 @@ class Webhook:
 
         self.logger.info('%s.isUpdate starts', __name__)
 
-        if self.data['operation'] == 'Update':
+        if self.data['operation'] == 'update':
             return True
         else:
             return False
@@ -84,7 +84,7 @@ class Webhook:
         self.logger.info('%s.isMarkedAsRead starts', __name__)
 
         try:
-            if self.data['details']['status'] == 'Ignored':
+            if self.data['object']['status'] == 'Ignored':
                 return True
             else:
                 return False
@@ -243,27 +243,4 @@ class Webhook:
                 #not from QRadar
                 return False
         else:
-            return False
-    def fromOrganization(self):
-        self.logger.info('%s', "TEST123")
-        return "TEST123"
-        """
-            Check organization from webhook
-            :return: Name of organization
-            :rtype: string
-        """
-
-        self.logger.info('%s.fromOrganization starts', __name__)
-        TAGS = self.data['object']['tags']
-        print(str(TAGS))
-
-        try:
-            if self.data['object']['tags'] == 'Ignored':
-                self.logger.info('%s.fromOrganization starts', __name__)
-                return True
-            else:
-                return False
-        except KeyError:
-            #when the alert is ignored (ignore new updates), the webhook does
-            #not have the status key, this exception handles that
             return False

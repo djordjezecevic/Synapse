@@ -3,6 +3,10 @@
 
 import os, sys
 import logging
+
+from datetime import date
+
+
 current_dir = os.path.dirname(os.path.abspath(__file__))
 app_dir = current_dir + '/..'
 sys.path.insert(0, current_dir)
@@ -19,33 +23,30 @@ def manageWebhook(webhookData):
     """
     logger = logging.getLogger(__name__)
     logger.info('%s.ManageWebhook starts', __name__)
-
     report = dict()
     cfg = getConf()
+    logger.info('---------------------------------------')
     webhook = Webhook(webhookData, cfg)
-    # mail sender objekat. Djordje
     mailSender = SendMail(cfg)
-#    actuator = Actuator(cfg)
+    mailSender.processWebhook(webhookData,cfg)
+
+    actuator = Actuator(cfg)
+
+    print(webhookData)
+
     #we are only interrested in update webhook at the moment
-
-    # dodati da li je alert ili case
-    hookType = webhook.webhookType()
-    # pa poslati mail
-    if hookType=="alert":
-        print("It is alert !")
-        mailSender.send("SOC_manager", "It is alert !")
-    if hookType=="case":
-        print("It is case !")
-        mailSender.send("SOC_manager", "It is case !")
-
     if webhook.isUpdate():
         report['action'] = 'Update'
-#        if webhook.isQRadarAlertMarkedAsRead():
-#            actuator.closeOffense(webhook.offenseId)
-#            report['action'] = 'closeOffense'
-#        elif webhook.isClosedQRadarCase():
-#            actuator.closeOffense(webhook.offenseId)
-#            report['action'] = 'closeOffense'
+        print("TEST")
+        if webhook.isQRadarAlertMarkedAsRead():
+            actuator.closeOffense(webhook.offenseId)
+            report['action'] = 'closeOffense'
+            loger.info("is readed")
+        elif webhook.isClosedQRadarCase():
+            actuator.closeOffense(webhook.offenseId)
+            report['action'] = 'closeOffense'
+            loger.info("is closed")
+
     else:
         #is not update or not a QRadar alert marked as read or not a closed QRadar case
         report['action'] = 'None'

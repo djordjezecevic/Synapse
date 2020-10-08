@@ -68,7 +68,7 @@ class Webhook:
 
         self.logger.info('%s.isUpdate starts', __name__)
 
-        if self.data['operation'] == 'update':
+        if self.data['operation'] == 'update' or self.data['operation'] == 'Update':
             return True
         else:
             return False
@@ -84,7 +84,7 @@ class Webhook:
         self.logger.info('%s.isMarkedAsRead starts', __name__)
 
         try:
-            if self.data['object']['status'] == 'Ignored':
+            if self.data['object']['status'] == 'Ignored' or self.data['object']['status'] == 'ignored':
                 return True
             else:
                 return False
@@ -107,7 +107,7 @@ class Webhook:
         self.logger.info('%s.isClosed starts', __name__)
 
         try:
-            if self.data['details']['status'] == 'Resolved':
+            if self.data['details']['status'] == 'Resolved' or self.data['details']['status'] == 'resolved':
                 return True
             else:
                 return False

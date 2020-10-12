@@ -74,7 +74,7 @@ class SendMail:
             print(webhookData)
             createdBy = webhookData['details']['_createdBy']
             updatedBy = webhookData['details']['_updatedBy']
-            createdAt = int(webhookData['object']['createdAt'])
+            createdAt = int(webhookData['details']['_createdAt'])
             caseId = str(webhookData['details']['number'])
             title = webhookData['details']['title']
             description = webhookData['details']['description']

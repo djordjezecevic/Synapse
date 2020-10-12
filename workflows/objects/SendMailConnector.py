@@ -73,7 +73,6 @@ class SendMail:
             self.logger.info('ManageWebhook.case created')
             print(webhookData)
             createdBy = webhookData['details']['_createdBy']
-            updatedBy = webhookData['details']['_updatedBy']
             createdAt = int(webhookData['details']['_createdAt'])
             caseId = str(webhookData['details']['number'])
             title = webhookData['details']['title']
@@ -85,7 +84,6 @@ class SendMail:
             msg = msg + "Case number: " + caseId + "<br>"
             msg = msg + "Owner: " + owner + "<br>"
             msg = msg + "Created by: " + createdBy + "<br>"
-            msg = msg + "Updated by: " + updatedBy + "<br>"
             msg = msg + "Title: " + title + "<br>"
             msg = msg + "Description:<br><code>" + markdown(description,extensions=['markdown.extensions.tables','markdown.extensions.extra']) + "</code><br>"
             mail_group_destination = "SOC_manager"

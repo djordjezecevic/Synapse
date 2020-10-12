@@ -115,7 +115,7 @@ class SendMail:
             title = webhookData['object']['title']
             self.logger.info('ManageWebhook.alert deleted')
             subject = "The Hive4 - " + self.org  + " - Alert deleted !"
-            msg = "Time: " + time.strftime('%H:%M:%S %d.%m.%Y', time.localtime(int(webhookData['startDate']/1000))) + "<br>"
+            msg = "Time: " + time.strftime('%H:%M:%S %d.%m.%Y', time.localtime(int(webhookData['startDate'])/1000)) + "<br>"
             msg = msg + "Korisnik: <b>" + self.org + "</b>"
             mail_group_destination = "SOC_manager"
             self.send(mail_group_destination,subject, msg)
@@ -124,7 +124,7 @@ class SendMail:
             self.logger.info('ManageWebhook.alert new')
             subject = "The Hive4 - " + self.org   +  " - NEW ALERT !" + " --" + title
             msg = ""
-            msg = "Time: " + time.strftime('%H:%M:%S %d.%m.%Y', time.localtime(int(webhookData['startDate']/1000))) + "<br>"
+            msg = "Time: " + time.strftime('%H:%M:%S %d.%m.%Y', time.localtime(int(webhookData['startDate'])/1000)) + "<br>"
             msg = msg + "Alert reference: " + webhookData['object']['sourceRef'] + "<br>"
             msg = msg + "Korisnik: <b>" + self.org + "</b><br>"
             msg = msg + "Source: " + webhookData['object']['source'] + "<br>"
@@ -137,7 +137,7 @@ class SendMail:
             title = webhookData['object']['title']
             self.logger.info('ManageWebhook.alert ignored')
             subject = "The Hive4 - " + self.org + " - Alert ignored !"
-            msg = "Time: " + time.strftime('%H:%M:%S %d.%m.%Y', time.localtime(int(webhookData['object']['createdAt']/1000))) + "<br>"
+            msg = "Time: " + time.strftime('%H:%M:%S %d.%m.%Y', time.localtime(int(webhookData['object']['createdAt'])/1000)) + "<br>"
             msg = msg + "Alert reference: " + webhookData['object']['sourceRef'] + "<br>"
             msg = msg + "Korisnik: " + self.org + "<br>"
             msg = msg + "Source: " + webhookData['object']['source'] + "<br>"

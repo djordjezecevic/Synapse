@@ -77,7 +77,6 @@ class SendMail:
             number = str(webhookData['details']['number'])
             title = webhookData['details']['title']
             description = webhookData['details']['description']
-            updatedBy = webhookData['object']['updatedBy']
             owner = webhookData['object']['owner']
             subject = "The Hive4 - " + self.org + " - CASE CREATED --" + title
             msg = "Korisnik: " + self.org + "<br>"

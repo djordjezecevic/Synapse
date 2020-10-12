@@ -17,7 +17,7 @@ class SendMail:
     message = None
     mail_group_destination = ""
     org=""
-    
+
     def __init__(self, cfg):
         """
             Class constuctor
@@ -25,8 +25,8 @@ class SendMail:
             :param cfg: synapse configuration
             :type cfg: ConfigParser
 
-            :return: 
-            :rtype: 
+            :return:
+            :rtype:
         """
         self.logger = logging.getLogger('workflows.' + __name__)
         self.cfg = cfg
@@ -35,8 +35,8 @@ class SendMail:
         self.message["From"] = self.sender_email
         self.mail_group_destination = "SOC_manager"
         self.org = cfg.get('TheHive', 'org')
-        
- 
+
+
     def send(self,receiver,subject,msg1):
         self.logger.info('SendMailConnector.send')
         try:
@@ -51,7 +51,7 @@ class SendMail:
         except Exception as e:
             self.logger.error('No valid recipient error', exc_info=True)
             raise
-        msg = MIMEText(msg1, "html") 
+        msg = MIMEText(msg1, "html")
         self.message.attach(msg)
         try:
             with smtplib.SMTP(self.smtp_server, self.port) as server:
@@ -60,10 +60,10 @@ class SendMail:
         except Exception as e:
             self.logger.error('Fail to send email', exc_info=True)
             raise
-            
+
     def processWebhook(self, webhookData,cfg):
         self.logger.info('SendMailConnector.processWebhook')
-        webhook = Webhook(webhookData, cfg)        
+        webhook = Webhook(webhookData, cfg)
 
         self.logger.info('SendMailConnector.processWebhook.checkingAlerts')
         self.logger.info('SendMailConnector.processWebhook.checkingCases')
@@ -75,12 +75,18 @@ class SendMail:
             number = str(webhookData['details']['number'])
             title = webhookData['details']['title']
             description = webhookData['details']['description']
+            createdBy = webhookData['object']['createdBy']
+            updatedBy = webhookData['object']['updatedBy']
+            owner = webhookData['owner']
             subject = "The Hive4 - " + self.org + " - CASE CREATED --" + title
             msg = "Korisnik: " + self.org + "<br>"
             msg = msg + "Time: " + time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(createdAt)) + "<br>"
             msg = msg + "Case number: " + number + "<br>"
+            msg = msg + "Owner: " + owner + "<br>"
+            msg = msg + "Created by: " + createdBy + "<br>"
+            msg = msg + "Updated by: " + updatedBy + "<br>"
             msg = msg + "Title: " + title + "<br>"
-            msg = msg + "Description:<br><code>" + markdown(description,extensions=['markdown.extensions.tables','markdown.extensions.extra']) + "</code><br>"   
+            msg = msg + "Description:<br><code>" + markdown(description,extensions=['markdown.extensions.tables','markdown.extensions.extra']) + "</code><br>"
             mail_group_destination = "SOC_manager"
             self.send(mail_group_destination,subject, msg)
         if webhook.isCase() and webhookData['details']['status'] == "Resolved":
@@ -104,7 +110,7 @@ class SendMail:
         if webhook.isAlert() and webhookData['operation'] == "delete":
             title = webhookData['object']['title']
             self.logger.info('ManageWebhook.alert deleted')
-            subject = "The Hive4 - " + self.org  + " - Alert deleted !" 
+            subject = "The Hive4 - " + self.org  + " - Alert deleted !"
             msg = "Time: " + time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(int(webhookData['startDate']))) + "<br>"
             msg = msg + "Korisnik: <b>" + self.org + "</b>"
             mail_group_destination = "SOC_manager"
@@ -132,9 +138,6 @@ class SendMail:
             msg = msg + "Korisnik: " + self.org + "<br>"
             msg = msg + "Source: " + webhookData['object']['source'] + "<br>"
             msg = msg + "Title: " + webhookData['object']['title'] + "<br>"
-            msg = msg + "Description:<br><code>" + markdown(webhookData['object']['description'],extensions=['markdown.extensions.tables','markdown.extensions.extra']) + "</code><br>"  
+            msg = msg + "Description:<br><code>" + markdown(webhookData['object']['description'],extensions=['markdown.extensions.tables','markdown.extensions.extra']) + "</code><br>"
             mail_group_destination = "SOC_manager"
             self.send(mail_group_destination,subject, msg)
-        
-
-

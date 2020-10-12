@@ -71,6 +71,7 @@ class SendMail:
         self.logger.info('webhookData op: ' + webhookData['operation'])
         if webhook.isCase() and webhookData['operation'] == "create":
             self.logger.info('ManageWebhook.case created')
+            print(webhookData)
             createdBy = webhookData['object']['createdBy']
             updatedBy = webhookData['object']['updatedBy']
             createdAt = int(webhookData['object']['createdAt'])
@@ -91,7 +92,6 @@ class SendMail:
             self.send(mail_group_destination,subject, msg)
         if webhook.isCase() and webhookData['details']['status'] == "Resolved":
             self.logger.info('ManageWebhook.case closed')
-            print(webhookData)
             createdBy = webhookData['object']['createdBy']
             createdAt = int(webhookData['object']['createdAt'])
             caseId = str(webhookData['object']['caseId'])

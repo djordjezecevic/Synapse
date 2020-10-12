@@ -100,7 +100,7 @@ class SendMail:
             owner = webhookData['object']['owner']
             subject = "The Hive4 - " + self.org + " - CASE CLOSED --" + title
             msg = "Korisnik: " + self.org + "<br>"
-            msg = msg + "Time: " + ttime.strftime('%H:%M:%S %d.%m.%Y', time.localtime(createdAt/1000)) + "<br>"
+            msg = msg + "Time: " + time.strftime('%H:%M:%S %d.%m.%Y', time.localtime(createdAt/1000)) + "<br>"
             msg = msg + "Case number: " + caseId + "<br>"
             msg = msg + "Owner: " + owner + "<br>"
             msg = msg + "Created by: " + createdBy + "<br>"

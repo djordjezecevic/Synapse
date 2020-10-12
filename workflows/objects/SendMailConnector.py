@@ -30,12 +30,12 @@ class SendMail:
         """
         self.logger = logging.getLogger('workflows.' + __name__)
         self.cfg = cfg
+        self.sender_email = cfg.get('mail','mail_from')
         self.message = MIMEMultipart("alternative")
         self.message["Subject"] = "THE HIVE 4 Alert"
         self.message["From"] = self.sender_email
         self.mail_group_destination = "SOC_manager"
         self.org = cfg.get('TheHive', 'org')
-        self.sender_email = cfg.get('mail','mail_from')
 
 
     def send(self,receiver,subject,msg1):

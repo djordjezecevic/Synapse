@@ -35,6 +35,7 @@ class SendMail:
         self.message["From"] = self.sender_email
         self.mail_group_destination = "SOC_manager"
         self.org = cfg.get('TheHive', 'org')
+        self.sender_email = cfg.get('mail','mail_from')
 
 
     def send(self,receiver,subject,msg1):
@@ -98,10 +99,16 @@ class SendMail:
             title = webhookData['object']['title']
             reason = webhookData['details']['summary']
             description = webhookData['object']['description']
+            createdBy = webhookData['object']['createdBy']
+            updatedBy = webhookData['object']['updatedBy']
+            owner = webhookData['owner']
             subject = "The Hive4 - " + self.org + " - CASE CLOSED --" + title
             msg = "Korisnik: " + self.org + "<br>"
             msg = msg + "Time: " + time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(createdAt)) + "<br>"
             msg = msg + "Case number: " + caseId + "<br>"
+            msg = msg + "Owner: " + owner + "<br>"
+            msg = msg + "Created by: " + createdBy + "<br>"
+            msg = msg + "Updated by: " + updatedBy + "<br>"
             msg = msg + "Title: " + title + "<br>"
             msg = msg + "<b> " + "Reason for close: " + "</b>" +  reason + "<br>"
             msg = msg + "Description:<br><code>" + markdown(description,extensions=['markdown.extensions.tables','markdown.extensions.extra']) + "</code><br>"

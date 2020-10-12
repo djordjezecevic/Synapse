@@ -71,12 +71,12 @@ class SendMail:
         self.logger.info('webhookData op: ' + webhookData['operation'])
         if webhook.isCase() and webhookData['operation'] == "create":
             self.logger.info('ManageWebhook.case created')
-            createdBy = webhookData['details']['_createdBy']
-            createdAt = int(webhookData['details']['_createdAt'])
+            createdBy = webhookData['object']['createdBy']
+            updatedBy = webhookData['object']['updatedBy']
+            createdAt = int(webhookData['object']['createdAt'])
             number = str(webhookData['details']['number'])
             title = webhookData['details']['title']
             description = webhookData['details']['description']
-            createdBy = webhookData['object']['createdBy']
             updatedBy = webhookData['object']['updatedBy']
             owner = webhookData['owner']
             subject = "The Hive4 - " + self.org + " - CASE CREATED --" + title

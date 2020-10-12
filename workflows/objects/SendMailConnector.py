@@ -78,7 +78,7 @@ class SendMail:
             title = webhookData['details']['title']
             description = webhookData['details']['description']
             updatedBy = webhookData['object']['updatedBy']
-            owner = webhookData['owner']
+            owner = webhookData['object']['owner']
             subject = "The Hive4 - " + self.org + " - CASE CREATED --" + title
             msg = "Korisnik: " + self.org + "<br>"
             msg = msg + "Time: " + time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(createdAt)) + "<br>"
@@ -101,7 +101,7 @@ class SendMail:
             description = webhookData['object']['description']
             createdBy = webhookData['object']['createdBy']
             updatedBy = webhookData['object']['updatedBy']
-            owner = webhookData['owner']
+            owner = webhookData['object']['owner']
             subject = "The Hive4 - " + self.org + " - CASE CLOSED --" + title
             msg = "Korisnik: " + self.org + "<br>"
             msg = msg + "Time: " + time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(createdAt)) + "<br>"

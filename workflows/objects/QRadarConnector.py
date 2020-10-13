@@ -474,7 +474,7 @@ class QRadarConnector:
                 self.logger.error('Failed to get close reason ID', exc_info=True)
                 raise
             reason = reasonId
-            print(reason)
+        print(reason)
 
         try:
             #when closing an offense with the webUI, the closing_reason_id

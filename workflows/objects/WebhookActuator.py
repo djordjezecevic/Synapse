@@ -21,7 +21,7 @@ class Actuator:
         self.logger = logging.getLogger('workflows.' + __name__)
         self.qradarConnector = QRadarConnector(cfg)
 
-    def closeOffense(self, offenseId):
+    def closeOffense(self, offenseId,severity):
         """
             Close an offense in QRadar given a specific offenseId
         """
@@ -29,7 +29,7 @@ class Actuator:
         self.logger.info('%s.closeOffense starts', __name__)
         try:
             if self.qradarConnector.offenseIsOpen(offenseId):
-                self.qradarConnector.closeOffense(offenseId)
+                self.qradarConnector.closeOffense(offenseId,severity)
             else:
                 self.logger.info('Offense %s already closed', offenseId)
         except Exception as e:

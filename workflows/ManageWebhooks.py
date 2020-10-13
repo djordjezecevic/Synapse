@@ -33,21 +33,22 @@ def manageWebhook(webhookData):
     actuator = Actuator(cfg)
 
     print(webhookData)
-    severity = 0
-    try:
-        severity = webhookData['object']['severity']
-        print(severity)
-    except Exception as e:
-        self.logger.error('Ne postoji severity') 
+
     #we are only interrested in update webhook at the moment
     if webhook.isUpdate():
+        severity = 0
+        try:
+            severity = webhookData['object']['severity']
+            print(severity)
+        except Exception as e:
+            self.logger.error('Ne postoji severity, ostaje 0')
         report['action'] = 'Update'
         if webhook.isQRadarAlertMarkedAsRead():
-            actuator.closeOffense(webhook.offenseId)
+            actuator.closeOffense(webhook.offenseId,severity)
             report['action'] = 'closeOffense'
             loger.info("is readed")
         elif webhook.isClosedQRadarCase():
-            actuator.closeOffense(webhook.offenseId)
+            actuator.closeOffense(webhook.offenseId,severity)
             report['action'] = 'closeOffense'
             loger.info("is closed")
 

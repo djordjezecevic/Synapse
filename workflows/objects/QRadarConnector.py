@@ -448,7 +448,7 @@ class QRadarConnector:
 
         self.logger.info('%s.closeOffense starts', __name__)
         reasonName = "Visok"
-        reason = 1
+        reasonId = 1
         if (severity>2):
             self.logger.info('%s.get close reason by name starts', __name__)
             try:
@@ -461,7 +461,6 @@ class QRadarConnector:
                     for reason in response_body:
                         if reasonName in reason['text']:
                             reasonId=reason['id']
-                            print(reasonId)
                 else:
                     raise ValueError(response_body)
             except ValueError:
@@ -471,14 +470,13 @@ class QRadarConnector:
                 self.logger.error('Failed to get close reason ID', exc_info=True)
                 raise
             reason = reasonId
-        print(reason)
 
         try:
             #when closing an offense with the webUI, the closing_reason_id
             #is set to 1 by default
             #this behavior is implemented here with a hardcoded
             #closing_reason_id=1
-            response = self.client.call_api('/siem/offenses/' + str(offenseId) + '?status=CLOSED&closing_reason_id='+ str(reason), 'POST')
+            response = self.client.call_api('/siem/offenses/' + str(offenseId) + '?status=CLOSED&closing_reason_id='+ str(reasonId), 'POST')
             response_text = response.read().decode('utf-8')
             response_body = json.loads(response_text)
             print(response_body)

@@ -481,8 +481,7 @@ class QRadarConnector:
             #is set to 1 by default
             #this behavior is implemented here with a hardcoded
             #closing_reason_id=1
-            response = self.client.call_api(
-            'siem/offenses/' + str(offenseId) + '?status=CLOSED&closing_reason_id='+ str(reason), 'POST')
+            response = self.client.call_api('siem/offenses/' + str(offenseId) + '?status=CLOSED&closing_reason_id='+ str(reason), 'POST')
             response_text = response.read().decode('utf-8')
             response_body = json.loads(response_text)
             print(response_body)

@@ -447,7 +447,7 @@ class QRadarConnector:
         """
 
         self.logger.info('%s.closeOffense starts', __name__)
-
+        reasonName = "Visok"
         reason = 1
         if (severity>2):
             self.logger.info('%s.get close reason by name starts', __name__)

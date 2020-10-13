@@ -447,9 +447,32 @@ class QRadarConnector:
         """
 
         self.logger.info('%s.closeOffense starts', __name__)
+
         reason = 1
         if (severity>2):
-            reason = self.getCloseReasonIdByString("Visok nivo kriticnosti")
+            self.logger.info('%s.get close reason by name starts', __name__)
+
+            try:
+                response = self.client.call_api('/siem/offense_closing_reasons', 'GET')
+
+                response_text = response.read().decode('utf-8')
+                response_body = json.loads(response_text)
+                reasonId = 0
+                if (response.code == 200):
+                    #response_body is a list of dict
+                    for reason in response_body:
+                        if reasonName in reason['text']:
+                            reasonId=reason['id']
+                else:
+                    raise ValueError(response_body)
+                return reasonId
+            except ValueError:
+                self.logger.error('QRadar returned http %s', str(response.code))
+                raise
+            except Exception as e:
+                self.logger.error('Failed to get close reason ID', exc_info=True)
+                raise
+            reason = reasonId
             print(reason)
 
         try:
@@ -513,36 +536,3 @@ class QRadarConnector:
                 self.logger.warning('Could not get rule name for offense')
 
         return ruleNames
-        def getCloseReasonIdByString(self, reasonName):
-            """
-                Check if an offense is close or open in QRadar
-
-                :param reasonName: the QRadar literal Close Reason for Offense
-                :type reasonName: str
-
-                :return: retturn closeReasonId if reason exists or 0 if not
-                :rtype: int
-            """
-
-            self.logger.info('%s.get close reason by name starts', __name__)
-
-            try:
-                response = self.client.call_api('/siem/offense_closing_reasons', 'GET')
-
-                response_text = response.read().decode('utf-8')
-                response_body = json.loads(response_text)
-                reasonId = 0
-                if (response.code == 200):
-                    #response_body is a list of dict
-                    for reason in response_body:
-                        if reasonName in reason['text']:
-                            reasonId=reason['id']
-                else:
-                    raise ValueError(response_body)
-                return reasonId
-            except ValueError:
-                self.logger.error('QRadar returned http %s', str(response.code))
-                raise
-            except Exception as e:
-                self.logger.error('Failed to get close reason ID', exc_info=True)
-                raise

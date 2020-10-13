@@ -485,7 +485,7 @@ class QRadarConnector:
             'siem/offenses/' + str(offenseId) + '?status=CLOSED&closing_reason_id='+ str(reason), 'POST')
             response_text = response.read().decode('utf-8')
             response_body = json.loads(response_text)
-
+            print(response_body)
             #response_body would look like
             #[
             #  {

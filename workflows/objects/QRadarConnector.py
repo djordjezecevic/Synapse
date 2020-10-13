@@ -461,9 +461,9 @@ class QRadarConnector:
                 if (response.code == 200):
                     #response_body is a list of dict
                     for reason in response_body:
-                        print(reason['id'])
                         if reasonName in reason['text']:
                             reasonId=reason['id']
+                            print(reasonId)
                 else:
                     raise ValueError(response_body)
                 return reasonId

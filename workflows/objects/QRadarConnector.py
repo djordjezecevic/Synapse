@@ -449,7 +449,7 @@ class QRadarConnector:
         self.logger.info('%s.closeOffense starts', __name__)
         reason = 1
         if (severity>2):
-            reason = 3
+            reason = 54
 
         try:
             #when closing an offense with the webUI, the closing_reason_id

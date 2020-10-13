@@ -457,10 +457,11 @@ class QRadarConnector:
 
                 response_text = response.read().decode('utf-8')
                 response_body = json.loads(response_text)
-                reasonId = 0
+                reasonId = 1
                 if (response.code == 200):
                     #response_body is a list of dict
                     for reason in response_body:
+                        print(reason['id'])
                         if reasonName in reason['text']:
                             reasonId=reason['id']
                 else:

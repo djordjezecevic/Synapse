@@ -451,10 +451,8 @@ class QRadarConnector:
         reason = 1
         if (severity>2):
             self.logger.info('%s.get close reason by name starts', __name__)
-
             try:
                 response = self.client.call_api('/siem/offense_closing_reasons', 'GET')
-
                 response_text = response.read().decode('utf-8')
                 response_body = json.loads(response_text)
                 reasonId = 1
@@ -466,7 +464,6 @@ class QRadarConnector:
                             print(reasonId)
                 else:
                     raise ValueError(response_body)
-                return reasonId
             except ValueError:
                 self.logger.error('QRadar returned http %s', str(response.code))
                 raise

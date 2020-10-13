@@ -89,7 +89,7 @@ class SendMail:
             self.send(mail_group_destination,subject, msg)
         if webhook.isCase() and webhookData['details']['status'] == "Resolved":
             self.logger.info('ManageWebhook.case closed')
-            print(webhookData)
+#            print(webhookData)
             createdBy = webhookData['object']['createdBy']
             createdAt = int(webhookData['object']['createdAt'])
             caseId = str(webhookData['object']['caseId'])
